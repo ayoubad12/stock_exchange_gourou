@@ -89,6 +89,11 @@ async function fetchReport(data) {
         })
         // const data = JSON.parse(response); //wrong  
         const data = await response.json();
+        //erro handling:
+        if (!response.ok) {
+            throw new Error(`Worker Error: ${data.error}`)
+        }
+
         renderReport(data.content)
         console.log(data)
 
