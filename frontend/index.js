@@ -40,20 +40,19 @@ async function fetchStockData() {
     document.querySelector('.action-panel').style.display = 'none'
     loadingArea.style.display = 'flex'
     try {
-        // const stockData = await Promise.all(tickersArr.map(async (ticker) => {
-        //     const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${dates.startDate}/${dates.endDate}?apiKey=${process.env.POLYGON_API_KEY}`
-        //     const response = await fetch(url)
-        //     const data = await response.text()
-        //     const status = await response.status
-        //     if (status === 200) {
-        //         apiMessage.innerText = 'Creating report...'
-        //         return data
-        //     } else {
-        //         loadingArea.innerText = 'There was an error fetching stock data.'
-        //     }
-        // }))
-        // fetchReport(stockData.join(''))
-        fetchReport()
+        const stockData = await Promise.all(tickersArr.map(async (ticker) => {
+            const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${dates.startDate}/${dates.endDate}?apiKey=9LCqYv10xP3iDlI8tTJGljAI3bUBzGyC`
+            const response = await fetch(url)
+            const data = await response.text()
+            const status = await response.status
+            if (status === 200) {
+                apiMessage.innerText = 'Creating report...'
+                return data
+            } else {
+                loadingArea.innerText = 'There was an error fetching stock data.'
+            }
+        }))
+        fetchReport(stockData.join(''))
     } catch (err) {
         loadingArea.innerText = 'There was an error fetching stock data.'
         console.error(err.message)
@@ -77,33 +76,22 @@ async function fetchReport(data) {
             `
         }
     ]
-    
-    /*
-      Challenge:
-        1. Make a fetch request to the Worker url:
-          - The method should be 'POST'
-          - In the headers, the 'Content-Type' should be 'application/json'
-          - Set the body of the request to an empty string for now
-        2. Parse the response to a JavaScript object and assign it to a const
-        3. Log the response to the con  sole to test
-    */
 
     try {
-        const url = "https://opeai-api-worker.ayoubad1212.workers.dev/"
+        const url = "https://opeai-api-worker.ayoubad1212.workers.dev"
         
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body:''
+            body: JSON.stringify(messages)
         })
-
-        const data = JSON.parse(response);
+        // const data = JSON.parse(response); //wrong  
+        const data = await response.json();
+        renderReport(data.content)
         console.log(data)
 
-        
-        
     } catch (err) {
         console.error(err.message)
         loadingArea.innerText = 'Unable to access AI. Please refresh and try again'
