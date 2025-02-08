@@ -79,7 +79,8 @@ async function fetchReport(data) {
     ]
 
     try {
-        const url = "https://openai-api-worker.ayoubad1212.workers.dev/"
+        // const url = "http://127.0.0.1:8787" //dev worker 
+        const url = "https://openai-api-worker.ayoubad1212.workers.dev/" 
         
         const response = await fetch(url, {
             method: 'POST',
