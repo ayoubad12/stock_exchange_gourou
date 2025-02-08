@@ -30,17 +30,8 @@ The application uses a modern web architecture with the following components:
 ## Setup and Installation 🛠️
 
 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/stock_exchange_guru.git
-cd stock_exchange_guru
-```
 
-2. Configure environment variables
-```env
-POLYGON_API_KEY=your_polygon_api_key
-```
-
-3. Run a local server to serve the files
+2. Navigate to the frontend folder and start a local server to serve the files.
 ```bash
 # Using Python
 python -m http.server
@@ -49,7 +40,7 @@ python -m http.server
 npx serve
 ```
 
-4. Open `http://localhost:8000` in your browser
+3. Open `http://localhost:8000` in your browser
 
 ## Usage 💡
 
@@ -60,13 +51,13 @@ npx serve
 5. Wait for the magical prediction to appear! 🎯
 
 ## Sequence Diagram:
-![sequence diagram](assets/sequence diagramme.jpg')
+<img src="assets/sequence diagramme.jpg" alt="Sequence Diagram" width="800">
 
 ## Limitations ⚠️
 
 - Maximum of 3 stock tickers per report
 - Reports are generated based on 3-day historical data
-- API rate limits may apply
+- API rate limits is applied
 - This is not real financial advice 
 
 ## Dependencies 📦
