@@ -93,7 +93,7 @@ async function fetchReport(data) {
         const data = await response.json();
         //erro handling:
         if (!response.ok) {
-            throw new Error(`Worker Error: ${data.error}`)
+            throw new Error(` ${data.error}`)
         }
 
         renderReport(data.content)
@@ -101,7 +101,7 @@ async function fetchReport(data) {
 
     } catch (err) {
         console.error(err.message)
-        loadingArea.innerText = 'Unable to access AI. Please refresh and try again'
+        loadingArea.innerText = 'Unable to access AI. Try again later \n' + err.message
     }
 }
 

@@ -7,7 +7,7 @@ async function rateLimit(request, env) {
     const clientIP = request.headers.get('CF-Connecting-IP'); //get the client ip
     const today = new Date().toISOString().split('T')[0]; //get today's date. exp: '2025-02-08'
     const key = `rate-limit:${clientIP}:${today}`; 
-		// await await env.kv_gourou_exchange.put("Testk", "testv" ); //testing cloudflare namespace binding 
+		// await await env.kv_gourou_exchange.put("Testk", "testv" , { expirationTtl: 86400}); //for debugging  
     
     const cachedValue = await env.kv_gourou_exchange.get(key);
 		console.log("cachedValue:"+ cachedValue);  
@@ -21,14 +21,13 @@ async function rateLimit(request, env) {
       count = count + 1
     }
     
-    await env.kv_gourou_exchange.put(key, count );
+    await env.kv_gourou_exchange.put(key, count, { expirationTtl: 86400 });
     return true
   
   } catch (err) {
     console.error(`rate limit check returned an error: ${err}`);
 		throw err;
   }
-
 }
 
 const corsHeaders = {
@@ -69,11 +68,9 @@ export default {
         }
       );
     }
-
 		const openai = new OpenAI({ //instantiate the openai api client here
 				apiKey: env.OPENAI_API_KEY
 		})
-
 		try{
 			const messages = await request.json() ;
 
@@ -87,7 +84,6 @@ export default {
 			})		
 			const response = chatCompletion.choices[0].message ;
 			return new Response(JSON.stringify(response), {headers: corsHeaders})
-
 		}catch(e){	
 			return new Response(JSON.stringify({error: e.message}), {status: 500, headers: corsHeaders}) 
 		}
